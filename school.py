@@ -27,6 +27,7 @@ class SchoolClass:
         return f"{self.grade}{self.letter}"
 
     def advance(self) -> bool:
+        # Одинадцятий клас випускається, тому номер не змінюємо.
         if self.grade == 11:
             return False
         self.grade += 1
@@ -99,6 +100,7 @@ class School:
         girls = counts["Д"] * 100 / total if total else 0
 
         def describe_size(size: int) -> str:
+            # За однакової наповнюваності вказуємо всі такі класи.
             names = ", ".join(group.name for group in self.classes if len(group.students) == size)
             return f"{size} ({names})"
 
@@ -116,6 +118,7 @@ class School:
 
 
 def load_school(data_dir: Path) -> School:
+    # Паралель і літера разом визначають клас, до якого належить учень.
     classes: dict[tuple[int, str], SchoolClass] = {}
     with (data_dir / "classes.csv").open(encoding="utf-8-sig", newline="") as file:
         for row in csv.DictReader(file):

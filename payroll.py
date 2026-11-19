@@ -6,12 +6,14 @@ from school import School, load_school
 
 def export_payroll(school: School, path: Path) -> None:
     fields = ("ПІБ", "Посада", "Базова ставка", "Розрахована зарплата")
+    # BOM допомагає Excel розпізнати українські заголовки.
     with path.open("w", encoding="utf-8-sig", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(fields)
         print(f"{fields[0]:<29} {fields[1]:<10} {fields[2]:>14} {fields[3]:>22}")
         print("-" * 78)
         for employee in school.employees:
+            # Кожна посада має свою формулу в методі salary().
             salary = employee.salary()
             writer.writerow((employee.full_name, employee.role,
                              f"{employee.base_salary:.2f}", f"{salary:.2f}"))
